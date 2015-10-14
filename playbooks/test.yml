@@ -1,0 +1,10 @@
+---
+- hosts: test
+  vars:
+    owner: ubuntu
+    group: ubuntu
+  tasks:
+    - name: add htop
+      apt:
+        pkg: htop
+        state: latest
