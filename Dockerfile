@@ -12,7 +12,6 @@ RUN mkdir /root/.ssh \
 
 WORKDIR /playbooks
 VOLUME /root/.ssh/id_rsa
-VOLUME /root/.ssh/known_hosts
 VOLUME /etc/ansible/hosts
 VOLUME /playbooks
 CMD ["ansible"]

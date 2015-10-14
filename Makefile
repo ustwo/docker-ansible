@@ -10,10 +10,23 @@ build:
 shell:
 	docker run --rm -it \
 		$(volumes) \
+		--link sshd_mock:mock \
 		$(image_name) sh
 
 test:
 	docker run --rm -it \
 		$(volumes) \
+		--link sshd_mock:mock \
 		$(image_name) \
-		ansible test -a "ls -la"
+		ansible -vvvv test -a "ls -la"
+
+
+mock-build:
+	docker build -t sshd_mock -f Dockerfile.mock .
+
+mock-shell:
+	docker run --rm -it \
+		sshd_mock sh
+
+mock-run:
+	docker run -d -p 2222:22 --name sshd_mock sshd_mock

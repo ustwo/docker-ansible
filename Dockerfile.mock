@@ -1,0 +1,21 @@
+###############################################################################
+# Mock SSH server to test the Ansible container
+###############################################################################
+FROM alpine:3.2
+MAINTAINER Arnau Siches <arnau@ustwo.com>
+
+RUN apk add --update \
+      openssh \
+ && rm -rf /var/cache/apk/*
+
+RUN mkdir /root/.ssh \
+ && chmod 700 /root/.ssh \
+ && echo -e "Port 22\nPermitRootLogin without-password\nPubkeyAuthentication yes\n" >> /etc/ssh/sshd_config
+
+COPY insecure_key.pub /root/.ssh/authorized_keys
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D", "-f", "/etc/ssh/sshd_config"]
