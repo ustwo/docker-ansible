@@ -20,6 +20,12 @@ test:
 		$(image_name) \
 		ansible -vvvv test -a "ls -la"
 
+mock-test:
+	docker run --rm -it \
+		$(volumes) \
+		--link sshd_mock:mock \
+		$(image_name) \
+		sh
 
 mock-build:
 	docker build -t sshd_mock -f Dockerfile.mock .

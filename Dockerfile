@@ -8,7 +8,7 @@ RUN echo "http://dl-3.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
  && rm -rf /var/cache/apk/*
 
 RUN mkdir /root/.ssh \
- && echo "StrictHostKeyChecking no" > /root/.ssh/config
+ && echo "Host *\nStrictHostKeyChecking no" > /root/.ssh/config
 
 WORKDIR /playbooks
 VOLUME /root/.ssh/id_rsa
