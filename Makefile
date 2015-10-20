@@ -35,4 +35,10 @@ mock-shell:
 		sshd_mock sh
 
 mock-run:
-	docker run -d -p 2222:22 --name sshd_mock sshd_mock
+	docker run -d -p 2222:22 \
+		-v $(PWD):/source \
+		--name sshd_mock \
+		sshd_mock
+
+mock-clean:
+	docker rm -vf sshd_mock
