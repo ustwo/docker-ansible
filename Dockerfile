@@ -1,11 +1,18 @@
-FROM alpine:3.2
+FROM debian:8
 MAINTAINER Arnau Siches <arnau@ustwo.com>
 
-RUN echo "http://dl-3.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
- && apk add --update \
+RUN apt-get update -qq \
+ && apt-get install -qqy \
       openssh-client \
-      ansible=1.9.4-r0 \
- && rm -rf /var/cache/apk/*
+      python-dev \
+      python-pip \
+ && apt-get autoclean \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN pip install \
+      ansible \
+      markupsafe
 
 RUN mkdir /root/.ssh \
  && echo "Host *\nStrictHostKeyChecking no" > /root/.ssh/config
